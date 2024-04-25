@@ -54,9 +54,9 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'ilias_version' => ['text', 'v5.4.0'],
                     'created_timestamp' => ['integer', 123_456_789],
                     'currently_active' => ['integer', true],
-                    'background_image_path' => ['text', '/some/where/background.jpg'],
+                    'background_image_identification' => ['text', '/some/where/background.jpg'],
                     'deleted' => ['integer', 0],
-                    'thumbnail_image_path' => ['text', 'some/path/test.svg']
+                    'thumbnail_image_identification' => ['text', 'some/path/test.svg']
                 ]
             );
 
@@ -103,8 +103,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'ilias_version' => 'v5.4.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => true,
-                    'background_image_path' => '/some/where/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ],
                 [
                     'id' => 30,
@@ -117,8 +117,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'ilias_version' => 'v5.3.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => false,
-                    'background_image_path' => '/some/where/else/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/else/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ]
             );
 
@@ -157,8 +157,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'ilias_version' => 'v5.4.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => true,
-                    'background_image_path' => '/some/where/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ],
                 [
                     'id' => 30,
@@ -171,8 +171,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'ilias_version' => 'v5.3.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => false,
-                    'background_image_path' => '/some/where/else/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/else/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ]
             );
 
@@ -212,8 +212,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'ilias_version' => 'v5.4.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => true,
-                    'background_image_path' => '/some/where/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ],
                 [
                     'id' => 30,
@@ -226,8 +226,8 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
                     'ilias_version' => 'v5.3.0',
                     'created_timestamp' => 123_456_789,
                     'currently_active' => false,
-                    'background_image_path' => '/some/where/else/background.jpg',
-                    'thumbnail_image_path' => 'some/path/test.svg'
+                    'background_image_identification' => '/some/where/else/background.jpg',
+                    'thumbnail_image_identification' => 'some/path/test.svg'
                 ]
             );
 
@@ -311,8 +311,8 @@ AND obj_id = 200');
                 'ilias_version' => 'v5.4.0',
                 'created_timestamp' => 123_456_789,
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => 'some/path/test.svg'
+                'background_image_identification' => '/some/where/background.jpg',
+                'thumbnail_image_identification' => 'some/path/test.svg'
             ],
             [
                 'id' => 30,
@@ -325,8 +325,8 @@ AND obj_id = 200');
                 'ilias_version' => 'v5.3.0',
                 'created_timestamp' => 123_456_789,
                 'currently_active' => false,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'thumbnail_image_path' => 'some/path/test.svg'
+                'background_image_identification' => '/some/where/else/background.jpg',
+                'thumbnail_image_identification' => 'some/path/test.svg'
             ]
         );
 
@@ -369,8 +369,8 @@ AND obj_id = 200');
                 'ilias_version' => 'v5.4.0',
                 'created_timestamp' => 123_456_789,
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => '/some/where/thumbnail.svg'
+                'background_image_identification' => '/some/where/background.jpg',
+                'thumbnail_image_identification' => '/some/where/thumbnail.svg'
             ],
             [
                 'id' => 30,
@@ -383,8 +383,8 @@ AND obj_id = 200');
                 'ilias_version' => 'v5.3.0',
                 'created_timestamp' => 123_456_789,
                 'currently_active' => false,
-                'background_image_path' => '/some/where/else/background.jpg',
-                'thumbnail_image_path' => '/some/where/thumbnail.svg'
+                'background_image_identification' => '/some/where/else/background.jpg',
+                'thumbnail_image_identification' => '/some/where/thumbnail.svg'
             ]
         );
 
@@ -461,7 +461,7 @@ AND obj_id = 200');
                 'ilias_version' => 'v5.4.0',
                 'created_timestamp' => 123_456_789,
                 'currently_active' => true,
-                'background_image_path' => '/some/where/background.jpg'
+                'background_image_identification' => '/some/where/background.jpg'
             ]
         );
 
