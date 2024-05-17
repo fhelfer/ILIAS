@@ -66,7 +66,7 @@ class ilUserCertificateGUI
         ?Renderer $uiRenderer = null,
         ?ilAccessHandler $access = null,
         ?Filesystem $filesystem = null,
-        ?IRSS $irss = null
+        private ?IRSS $irss = null
     ) {
         global $DIC;
 
@@ -126,7 +126,7 @@ class ilUserCertificateGUI
         $this->filesystem = $filesystem;
 
         if ($irss === null) {
-            $irss = $DIC->repositoryStorage();
+            $irss = $DIC->resourceStorage();
         }
         $this->irss = $irss;
 
