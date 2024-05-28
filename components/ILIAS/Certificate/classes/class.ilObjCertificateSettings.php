@@ -51,7 +51,8 @@ class ilObjCertificateSettings extends ilObject
             new ilUserCertificateRepository($DIC->database()),
             new ilCertificateTemplateDatabaseRepository($DIC->database()),
             $this->irss,
-            $this
+            $this,
+            $this->stakeholder
         );
     }
 

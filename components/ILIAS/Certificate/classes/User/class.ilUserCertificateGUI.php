@@ -120,11 +120,6 @@ class ilUserCertificateGUI
         }
         $this->access = $access;
 
-        if (null === $filesystem) {
-            $filesystem = $DIC->filesystem()->web();
-        }
-        $this->filesystem = $filesystem;
-
         if ($irss === null) {
             $irss = $DIC->resourceStorage();
         }
@@ -216,7 +211,6 @@ class ilUserCertificateGUI
                     $imagePath = $this->irss->consume()->src($thumb_rid)->getSrc(true);
                 }
 
-                $imagePath = ilUtil::getImagePath('standard/icon_cert.svg');
                 $cardImage = $this->uiFactory->image()->standard(
                     $imagePath,
                     $certificateData['title']
