@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Run PHP-CS-Fixer in refactor/"
 
 if [[ -z "${GHRUN}" ]]; then
   RUNCSFIXER=$(vendor/composer/vendor/bin/php-cs-fixer fix --using-cache=no --dry-run -vvv --config=./scripts/PHP-CS-Fixer/code-format.php_cs $@)
