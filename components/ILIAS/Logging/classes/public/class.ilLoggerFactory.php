@@ -242,7 +242,7 @@ class ilLoggerFactory
 
         // suid log
         $logger->pushProcessor(function ($record) {
-            $record['suid'] = substr(session_id(), 0, 5);
+            $record['extra']['suid'] = substr(session_id(), 0, 5);
             return $record;
         });
 
