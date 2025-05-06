@@ -46,6 +46,7 @@ use ILIAS\UI\Help;
 use ILIAS\UI\Implementation\Component\Input\UploadLimitResolver;
 use ILIAS\UI\Implementation\Component\MessageBox\MessageBoxRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Container\Form\FormRendererFactory;
+use ILIAS\UI\Implementation\Component\Entity\EntityRendererFactory;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -476,6 +477,16 @@ trait BaseUITestTrait
                         $data_factory,
                         $help_text_retriever,
                         $this->getUploadLimitResolver(),
+                    ),
+                    new EntityRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $image_path_resolver,
+                        $data_factory,
+                        $help_text_retriever,
+                        $this->getUploadLimitResolver()
                     )
                 )
             )
