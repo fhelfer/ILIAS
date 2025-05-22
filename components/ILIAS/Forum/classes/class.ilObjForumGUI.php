@@ -4660,7 +4660,7 @@ EOD
             return true;
         }
 
-        if (!$this->objProperties->isUserToggleNoti()) {
+        if (!$this->objProperties->isUserToggleNoti() && $this->objProperties->getNotificationType() === 'all_users') {
             return true;
         }
 
