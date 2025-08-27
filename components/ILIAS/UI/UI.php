@@ -533,7 +533,6 @@ class UI implements Component\Component
                             $use[UI\HelpTextRetriever::class],
                             $internal[UI\Implementation\Component\Input\UploadLimitResolver::class],
                         ),
-                        ),
                         new UI\Implementation\Component\Entity\EntityRendererFactory(
                             $use[UI\Implementation\FactoryInternal::class],
                             $internal[UI\Implementation\Render\TemplateFactory::class],
