@@ -60,6 +60,7 @@ class ComponentRendererFSLoaderTest extends TestCase
         $this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
         $messagebox_renderer = $this->createMock(I\Render\RendererFactory::class);
         $form_renderer = $this->createMock(I\Render\RendererFactory::class);
+        $menu_renderer = $this->createMock(I\Render\RendererFactory::class);
         $entitiy_renderer = $this->createMock(I\Render\RendererFactory::class);
 
         $field_renderer = $this->createMock(I\Render\RendererFactory::class);
@@ -69,6 +70,7 @@ class ComponentRendererFSLoaderTest extends TestCase
             $field_renderer,
             $messagebox_renderer,
             $form_renderer,
+            $menu_renderer,
             $entitiy_renderer,
         );
     }
