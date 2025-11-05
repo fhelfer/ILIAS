@@ -1,4 +1,5 @@
 <?php
+
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -163,8 +164,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $error = false;
 
         // validate to prevent wrong XMLs
-        @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
-        if ($error) {
+        libxml_use_internal_errors(true);
+
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->validateOnParse = true;
+
+        if (!$dom->loadXML($usr_xml)) {
+            $errors = libxml_get_errors();
+            libxml_clear_errors();
+        }
+        if (isset($errors)) {
             $msg = array();
             if (is_array($error)) {
                 foreach ($error as $err) {
