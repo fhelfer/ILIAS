@@ -68,4 +68,11 @@ class MailDBUpdateSteps11 implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_3(): void
+    {
+        if (!$this->db->indexExistsByFields('mail', ['schedule_datetime'])) {
+            $this->db->addIndex('mail', ['schedule_datetime'], 'i_sched_dt');
+        }
+    }
 }

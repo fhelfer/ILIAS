@@ -43,6 +43,11 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
      */
     public function getOutboxMails(): Generator
     {
+        $current_time = $this->clock->utc()->now();
+        // Stored schedule_datetime is local wall-clock time; timezone-aware due check stays in PHP below.
+        // This prefilter only skips rows clearly scheduled far in the future and keeps the cron scan bounded.
+        $schedule_prefilter_until = $current_time->modify('+1 day')->format('Y-m-d H:i:s');
+
         $res = $this->db->queryF(
             <<<'SQL'
             SELECT 
@@ -61,11 +66,11 @@ readonly class OutboxDatabaseRepository implements OutboxRepository
             INNER JOIN mail_obj_data ON mail.folder_id = mail_obj_data.obj_id AND mail.user_id = mail_obj_data.user_id
                  WHERE mail_obj_data.m_type = %s 
                    AND schedule_datetime IS NOT NULL
+                   AND schedule_datetime <= %s
             SQL,
-            [ilDBConstants::T_TEXT],
-            [MailFolderType::OUTBOX->value]
+            [ilDBConstants::T_TEXT, ilDBConstants::T_TEXT],
+            [MailFolderType::OUTBOX->value, $schedule_prefilter_until]
         );
-        $current_time = $this->clock->utc()->now();
 
         while ($row = $this->mail->fetchMailData($this->db->fetchAssoc($res))) {
             $schedule_datetime = new DateTimeImmutable(
