@@ -18,16 +18,16 @@
 
 declare(strict_types=1);
 
-use ILIAS\Refinery\Factory;
-use PHPUnit\Framework\MockObject\MockObject;
-use ILIAS\Mail\Autoresponder\AutoresponderService;
-use ILIAS\LegalDocuments\Conductor;
-use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result\Ok;
+use ILIAS\Refinery\Factory;
+use ILIAS\Refinery\Transformation;
+use ILIAS\LegalDocuments\Conductor;
+use ILIAS\Mail\Folder\MailScheduleData;
 use ILIAS\Mail\Service\MailSignatureService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\Attributes\DataProvider;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 use ILIAS\Mail\TemplateEngine\TemplateEngineFactoryInterface;
-use ILIAS\Mail\TemplateEngine\Mustache\MustacheTemplateEngineFactory;
 
 class ilMailTest extends ilMailBaseTestCase
 {
@@ -215,13 +215,13 @@ class ilMailTest extends ilMailBaseTestCase
             $mail_options,
             $mail_box,
             new ilMailMimeSenderFactory($settings, $template_engine_factory),
-            static fn(string $login): int => $all_users_login_to_id_map[$login] ?? 0,
+            static fn (string $login): int => $all_users_login_to_id_map[$login] ?? 0,
             $this->createMock(AutoresponderService::class),
             0,
             4711,
             $actor,
             new ilMailTemplatePlaceholderResolver(
-                new class () implements \ILIAS\Mail\TemplateEngine\TemplateEngineInterface {
+                new class () implements ILIAS\Mail\TemplateEngine\TemplateEngineInterface {
                     public function render(string $template, object|array $context): string
                     {
                         return 'phpunit';
@@ -318,7 +318,7 @@ class ilMailTest extends ilMailBaseTestCase
                 'sender_id' => '',
                 'use_placeholders' => '',
                 'user_id' => 0
-             ]],
+            ]],
         ];
     }
 
@@ -497,6 +497,41 @@ class ilMailTest extends ilMailBaseTestCase
         );
     }
 
+    public function testScheduledMailPersistsUsePlaceholders(): void
+    {
+        $usr_id = 5678;
+        $folder_id = 47;
+        $next_id = 789;
+        $schedule = new DateTimeImmutable('2026-09-20 08:00:00', new DateTimeZone('Europe/Berlin'));
+        $instance = $this->create(4749, $usr_id);
+
+        $this->mock_database->expects($this->once())->method('nextId')->with('mail')->willReturn($next_id);
+        $this->mock_database->expects($this->once())->method('insert')->with(
+            'mail',
+            $this->callback(static function (array $values): bool {
+                return isset($values['use_placeholders']) &&
+                    $values['use_placeholders'] === ['integer', 1];
+            })
+        );
+
+        $instance->scheduledMail(
+            $folder_id,
+            $usr_id,
+            new MailScheduleData(
+                new MailDeliveryData(
+                    'recipient',
+                    '',
+                    '',
+                    'Subject',
+                    'Message',
+                    [],
+                    true
+                ),
+                $schedule
+            )
+        );
+    }
+
     public function testPersistingToStage(): void
     {
         $usr_id = 897;
@@ -580,6 +615,7 @@ class ilMailTest extends ilMailBaseTestCase
         $this->mock_log->expects($this->exactly(6))->method('debug')->with(
             $this->callback(function ($value) use (&$consecutive_debug) {
                 $this->assertSame(array_shift($consecutive_debug), $value);
+
                 return true;
             }),
         );
@@ -592,6 +628,7 @@ class ilMailTest extends ilMailBaseTestCase
         $this->mock_parser_factory->expects($this->exactly(3))->method('getParser')->with(
             $this->callback(function ($value) use (&$consecutive_get) {
                 $this->assertSame(array_shift($consecutive_get), $value);
+
                 return true;
             }),
         )->willReturn($mock_parser);
@@ -619,14 +656,13 @@ class ilMailTest extends ilMailBaseTestCase
         $settings->method('get')->with('mail_system_sys_from_name')->willReturn($expected);
         $this->setGlobalVariable('ilSetting', $settings);
 
-
         $this->assertSame($expected, ilMail::_getIliasMailerName());
     }
 
     public function testSaveAttachments(): void
     {
         $usr_id = 89;
-        $attachments = new \ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a');
+        $attachments = new ILIAS\ResourceStorage\Identification\ResourceCollectionIdentification('657497dc-5079-4f95-b19d-aecdaf81ff1a');
         $instance = $this->create(789, $usr_id);
 
         $this->mock_database->expects($this->once())->method('update')->with(
@@ -670,17 +706,17 @@ class ilMailTest extends ilMailBaseTestCase
 
         $instance = new ilMail(
             $usr_id,
-            ($this->mock_address_type_factory = $this->getMockBuilder(ilMailAddressTypeFactory::class)->disableOriginalConstructor()->getMock()),
-            ($this->mock_parser_factory = $this->getMockBuilder(ilMailRfc822AddressParserFactory::class)->disableOriginalConstructor()->getMock()),
+            $this->mock_address_type_factory = $this->getMockBuilder(ilMailAddressTypeFactory::class)->disableOriginalConstructor()->getMock(),
+            $this->mock_parser_factory = $this->getMockBuilder(ilMailRfc822AddressParserFactory::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getMock(),
-            ($this->mock_log = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock()),
-            ($this->mock_database = $this->createMock(ilDBInterface::class)),
-            ($this->mock_language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock()),
+            $this->mock_log = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock(),
+            $this->mock_database = $this->createMock(ilDBInterface::class),
+            $this->mock_language = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock(),
             $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock(),
-            static fn(string $login): int => 780,
+            static fn (string $login): int => 780,
             $this->createMock(AutoresponderService::class),
             0,
             $ref_id,

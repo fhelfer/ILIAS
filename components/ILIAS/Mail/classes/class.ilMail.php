@@ -526,6 +526,7 @@ class ilMail
             'm_status' => [ilDBConstants::T_TEXT, 'read'],
             'm_subject' => [ilDBConstants::T_TEXT, $mail_data->getMailDeliveryData()->getSubject()],
             'm_message' => [ilDBConstants::T_CLOB, $message],
+            'use_placeholders' => [ilDBConstants::T_INTEGER, (int) $mail_data->getMailDeliveryData()->isUsePlaceholder()],
             'tpl_ctx_id' => [ilDBConstants::T_TEXT, $template_context_id],
             'tpl_ctx_params' => [ilDBConstants::T_BLOB, json_encode($template_context_parameters, JSON_THROW_ON_ERROR)],
             'schedule_datetime' => [ilDBConstants::T_TIMESTAMP, $mail_data->getScheduleDatetime()->format('Y-m-d H:i:s')],
