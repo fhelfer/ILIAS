@@ -157,6 +157,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Hidden):
                 return $this->renderHiddenField($component);
 
+            case ($component instanceof F\ProofOfWork):
+                return $this->renderProofOfWorkField($component);
+
             case ($component instanceof F\ColorSelect):
                 return $this->renderColorSelectField($component, $default_renderer);
 
@@ -920,6 +923,24 @@ class Renderer extends AbstractComponentRenderer
             $input->getLabel(),
             $template->get(),
         );
+    }
+
+    protected function renderProofOfWorkField(F\ProofOfWork $component): string
+    {
+        $tpl = $this->getTemplate('tpl.proofofwork.html', true, true);
+        $this->applyName($component, $tpl);
+        $tpl->setVariable(
+            'CHALLENGE',
+            htmlspecialchars($component->getChallengeUrl(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')
+        );
+        $tpl->setVariable('SCRIPT', 'assets/js/altcha.js');
+        if ($component->isAutomaticVerification()) {
+            $tpl->touchBlock('automatic');
+        }
+        $label_id = $this->createId();
+        $tpl->setVariable('ID', $label_id);
+
+        return $this->wrapInFormContext($component, $component->getLabel(), $tpl->get(), $label_id);
     }
 
     protected function renderHiddenField(F\Hidden $input): string

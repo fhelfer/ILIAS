@@ -34,4 +34,12 @@ interface ProofOfWork extends FormInput
      * URL that issues a fresh challenge for this field.
      */
     public function getChallengeUrl(): string;
+
+    /**
+     * Start the check when the form is shown.
+     * Otherwise the user starts it, for example with "I'm not a robot".
+     */
+    public function withAutomaticVerification(bool $automatic = true): ProofOfWork;
+
+    public function isAutomaticVerification(): bool;
 }

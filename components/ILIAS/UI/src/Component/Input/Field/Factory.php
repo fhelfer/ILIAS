@@ -1106,6 +1106,9 @@ interface Factory
      *       the resulting proof into the field value.
      *     2: >
      *       The user MUST NOT be asked to solve a visual or auditory puzzle.
+     *     3: >
+     *       By default the user starts the check, for example with "I'm not a robot".
+     *       withAutomaticVerification MAY start the same check when the form is shown.
      *   wording:
      *     1: >
      *       The label MUST describe the purpose of the check in plain language.

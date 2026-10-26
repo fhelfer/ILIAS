@@ -37,6 +37,9 @@ class ProofOfWork implements Component
         array|ArrayAccess &$pull,
         array|ArrayAccess &$internal,
     ): void {
+        $contribute[\ILIAS\Component\Resource\PublicAsset::class] = fn() =>
+            new \ILIAS\Component\Resource\ComponentJS($this, 'dist/altcha.js');
+
         $provide[Service::class] = static fn(): Service => ServiceFactory::fromGlobals();
     }
 }
