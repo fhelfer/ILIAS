@@ -29,6 +29,30 @@ final class ServiceFactory
     {
         global $DIC;
 
+        // cli/build_bootstrap.php executes provide-closures while resolving
+        // components. There is no DIC yet, and ilSetting would call database() on null.
+        if (!$DIC instanceof \ILIAS\DI\Container) {
+            return new Service(
+                new class () implements ChallengeIssuer {
+                    public function create(): array
+                    {
+                        return [];
+                    }
+
+                    public function verify(string $payload): bool
+                    {
+                        return false;
+                    }
+                },
+                new class () implements ConsumedProofStore {
+                    public function claim(string $proof_id, int $ttl_seconds): bool
+                    {
+                        return false;
+                    }
+                },
+            );
+        }
+
         return new Service(
             new AltchaChallengeIssuer(new SettingsSecret(new ilSetting('proofofwork'))),
             new CacheConsumedProofStore(
