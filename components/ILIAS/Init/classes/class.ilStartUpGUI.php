@@ -37,6 +37,7 @@ use ILIAS\AuthApache\AuthFrontendCredentialsApache;
  * @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
  * @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
  * @ilCtrl_Calls ilStartUpGUI: ilLogoutPageGUI
+ * @ilCtrl_Calls ilStartUpGUI: ILIAS\ProofOfWork\ChallengeGUI
  */
 class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
